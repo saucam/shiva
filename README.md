@@ -1,4 +1,4 @@
-# shiva
+# shiva [WIP]
 shiva is a library for Simple High dimensional Indexed Vector search Algorithms.
 
 Basic guiding principle is to be:
