@@ -1,4 +1,4 @@
-# Welcome to contributing guide for shiva [WIP]
+# Welcome to shiva contributing guide [WIP]
 
 Thank you for investing your time in contributing to the project! 
 
