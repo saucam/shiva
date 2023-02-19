@@ -65,7 +65,7 @@ object BuildHelper {
           None
       }
     } else {
-      println("=== [VERSION] Found a .zio.scala.version file but was empty. Skipping ===")
+      println("=== [VERSION] Found a .shiva.scala.version file but was empty. Skipping ===")
       None
     }
   }
