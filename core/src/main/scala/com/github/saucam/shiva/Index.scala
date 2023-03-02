@@ -1,8 +1,6 @@
 package com.github.saucam.shiva
 
-import breeze.linalg._
-
-trait Index[V] extends Serializable {
+trait Index[I] extends Serializable {
 
   /**
    * Add a new vector to the index. Returns the id of the newly added vector in the index,
@@ -10,7 +8,7 @@ trait Index[V] extends Serializable {
    * while adding the vector.
    * @param v
    */
-  def add(v: Vector[V]): Int
+  def add(v: I): Int
 
   /**
    * Check if item is present in the index
@@ -26,7 +24,7 @@ trait Index[V] extends Serializable {
    * @return collection of ids for each of the vector in iterV. id will be -1 if a problem
    * was encountered while adding the corresponding vector.
    */
-  def addAll(iterV: Iterable[Vector[V]]): Iterable[Int]
+  def addAll(iterV: Iterable[I]): Iterable[Int]
 
   /**
    * @return size of the index
@@ -38,5 +36,5 @@ trait Index[V] extends Serializable {
    * @param id
    * @return
    */
-  def get(id: Int): Option[Vector[V]]
+  def get(id: Int): Option[I]
 }
