@@ -1,6 +1,8 @@
 import BuildHelper._
 import Dependencies._
 
+Global / onChangedBuildSource := ReloadOnSourceChanges
+
 inThisBuild(
   List(
     organization := "com.github.saucam",
@@ -18,12 +20,24 @@ inThisBuild(
   )
 )
 
+addCommandAlias("check", "fixCheck; fmtCheck")
 addCommandAlias("fmt", "all scalafmtSbt scalafmt test:scalafmt")
+addCommandAlias("fix", "scalafixAll")
+addCommandAlias("fixCheck", "scalafixAll --check")
+addCommandAlias("fmtCheck", "all scalafmtSbtCheck scalafmtCheckAll")
+addCommandAlias("prepare", "fix; fmt")
 
 lazy val core = project
     .in(file("core"))
+    .enablePlugins(BuildInfoPlugin)
+    .settings(dottySettings)
+    .settings(stdSettings("shiva-core"))
     .settings(
-      moduleName := "shiva-core",
+      libraryDependencies ++= List(
+        breeze,
+        fastutil,
+        scalaTest
+      )
     )
 
 lazy val root = project
@@ -46,7 +60,7 @@ lazy val docs = project
       ("com.geirsson" % "metaconfig-typesafe-config_2.13"),
       ("org.typelevel" % "paiges-core_2.13")
     ),
-    crossScalaVersions := Seq(Scala212, Scala213, ScalaDotty),
+    crossScalaVersions := Seq(Scala213, ScalaDotty),
     scalaVersion := ScalaDotty,
     moduleName := "shiva-docs",
     scalacOptions -= "-Yno-imports",
