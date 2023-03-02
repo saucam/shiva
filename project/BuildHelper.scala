@@ -123,7 +123,7 @@ object BuildHelper {
   def stdSettings(prjName: String) =
     List(
       name := s"$prjName",
-      crossScalaVersions := List(Scala212, Scala213, ScalaDotty),
+      crossScalaVersions := List(Scala213, ScalaDotty),
       ThisBuild / scalaVersion := Scala213,
       scalacOptions := stdOptions ++ extraOptions(scalaVersion.value, optimize = !isSnapshot.value),
       semanticdbEnabled := scalaVersion.value != ScalaDotty,

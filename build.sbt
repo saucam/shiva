@@ -60,7 +60,7 @@ lazy val docs = project
       ("com.geirsson" % "metaconfig-typesafe-config_2.13"),
       ("org.typelevel" % "paiges-core_2.13")
     ),
-    crossScalaVersions := Seq(Scala212, Scala213, ScalaDotty),
+    crossScalaVersions := Seq(Scala213, ScalaDotty),
     scalaVersion := ScalaDotty,
     moduleName := "shiva-docs",
     scalacOptions -= "-Yno-imports",

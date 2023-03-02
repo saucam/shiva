@@ -3,6 +3,7 @@ shiva is a library for Simple High dimensional Indexed Vector search Algorithms.
 
 ![](https://img.shields.io/github/license/saucam/shiva)
 ![](https://img.shields.io/github/issues/saucam/shiva)
+[![CI](https://github.com/saucam/shiva/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/saucam/shiva/actions/workflows/ci.yaml)
 
 ## Overview
 

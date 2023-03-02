@@ -29,7 +29,7 @@ trait Index[I] extends Serializable {
   /**
    * @return size of the index
    */
-  def size: Int
+  def size(): Int
 
   /**
    * Returns a Vector by its identifier
