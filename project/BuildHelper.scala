@@ -1,10 +1,9 @@
-import sbt.Keys._
 import sbt._
-import sbtbuildinfo.BuildInfoKeys._
+import Keys._
 import sbtbuildinfo._
-import Dependencies._
+import BuildInfoKeys._
+import scalafix.sbt.ScalafixPlugin.autoImport._
 
-import java.nio.file.FileSystem
 import java.nio.file.FileSystems
 import java.nio.file.Files
 
@@ -77,19 +76,43 @@ object BuildHelper {
     }
 
 
+  private def extraOptions(scalaVersion: String, optimize: Boolean) =
+    CrossVersion.partialVersion(scalaVersion) match {
+      case Some((3, _)) =>
+        List("-language:implicitConversions", "-Xignore-scala2-macros")
+      case Some((2, 13)) =>
+        List("-Ywarn-unused:params,-implicits") ++ std2xOptions ++ optimizerOptions(optimize)
+      case Some((2, 12)) =>
+        List(
+          "-opt-warnings",
+          "-Ywarn-extra-implicit",
+          "-Ywarn-unused:_,imports",
+          "-Ywarn-unused:imports",
+          "-Ypartial-unification",
+          "-Yno-adapted-args",
+          "-Ywarn-inaccessible",
+          "-Ywarn-infer-any",
+          "-Ywarn-nullary-override",
+          "-Ywarn-nullary-unit",
+          "-Ywarn-unused:params,-implicits",
+          "-Xfuture",
+          "-Xsource:2.13",
+          "-Xmax-classfile-name",
+          "242"
+        ) ++ std2xOptions ++ optimizerOptions(optimize)
+      case _ => Nil
+    }
+
+  private def optimizerOptions(optimize: Boolean): List[String] =
+    if (optimize) List("-opt:l:inline", "-opt-inline-from:zio.internal.**") else Nil
+
     private val stdOptions = Seq(
     "-deprecation",
     "-encoding",
     "UTF-8",
     "-feature",
     "-unchecked"
-  ) ++ {
-    if (sys.env.contains("CI")) {
-      Seq() //"-Xfatal-warnings"
-    } else {
-      Nil // to enable Scalafix locally
-    }
-  }
+  )
 
     private val std2xOptions = Seq(
     "-language:higherKinds",
@@ -100,6 +123,22 @@ object BuildHelper {
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard"
   )
+
+  def stdSettings(prjName: String) =
+    List(
+      name := s"$prjName",
+      crossScalaVersions := List(Scala212, Scala213, ScalaDotty),
+      ThisBuild / scalaVersion := Scala213,
+      scalacOptions := stdOptions ++ extraOptions(scalaVersion.value, optimize = !isSnapshot.value),
+      semanticdbEnabled := scalaVersion.value != ScalaDotty,
+      semanticdbOptions += "-P:semanticdb:synthetics:on",
+      semanticdbVersion := scalafixSemanticdb.revision,
+      ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value),
+      ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0",
+      Test / parallelExecution := true,
+      incOptions ~= (_.withLogRecompileOnMacro(false)),
+      autoAPIMappings := true
+    )
 
   def buildInfoSettings(packageName: String) =
     Seq(
@@ -138,5 +177,4 @@ object BuildHelper {
       }
     }
   )
-
 }
