@@ -22,7 +22,6 @@ object BuildHelper {
     list.map(v => (v.split('.').take(2).mkString("."), v)).toMap
   }
 
-  val Scala212: String = versions("2.12")
   val Scala213: String = versions("2.13")
   val ScalaDotty: String = versions("3.2")
 
@@ -48,9 +47,6 @@ object BuildHelper {
     if (Files.exists(sPath)) {
       val strOpt = Files.readAllLines(sPath).toArray().headOption
       strOpt match {
-        case Some("2.12") =>
-          println(s"=== [VERSION] Reading Version from .shiva.scala.version file: ${Scala212} ===")
-          Some(Scala212)
         case Some("2.13") =>
           println(s"=== [VERSION] Reading Version from .shiva.scala.version file: ${Scala213} ===")
           Some(Scala213)
