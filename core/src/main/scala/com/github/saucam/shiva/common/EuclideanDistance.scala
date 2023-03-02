@@ -16,7 +16,8 @@ class EuclideanDistanceFloat extends DistanceCalculator[Float] {
   override def computeDistance(u: Vector[Float], v: Vector[Float]): Float = {
     val b = v * -1f
     val diff = u + b
-    Math.sqrt(diff dot diff).toFloat
+    val dot = diff dot diff
+    Math.sqrt(dot.toDouble).toFloat
   }
 }
 
