@@ -1,14 +1,11 @@
-package com.github.saucam.shiva.hnsw
+package io.github.saucam.shiva.hnsw
 
 import scala.annotation.tailrec
-
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap
 import it.unimi.dsi.fastutil.ints.IntArrayList
-
-import com.github.saucam.shiva.Index
-import com.github.saucam.shiva.common.DistanceCalculator
-import com.github.saucam.shiva.common.Node
-import com.github.saucam.shiva.hnsw.HnswIndex.INVALID_ID
+import HnswIndex.INVALID_ID
+import io.github.saucam.shiva.Index
+import io.github.saucam.shiva.common.{DistanceCalculator, Node}
 
 class HnswIndex[V](
     dimensions: Int,
