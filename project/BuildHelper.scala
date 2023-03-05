@@ -3,6 +3,7 @@ import Keys._
 import sbtbuildinfo._
 import BuildInfoKeys._
 import scalafix.sbt.ScalafixPlugin.autoImport._
+import xerial.sbt.Sonatype.autoImport._
 
 import java.nio.file.FileSystems
 import java.nio.file.Files
@@ -119,6 +120,12 @@ object BuildHelper {
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard"
   )
+
+  def publishSettings() =
+    List(
+      sonatypeCredentialHost := "s01.oss.sonatype.org",
+      sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
+    )
 
   def stdSettings(prjName: String) =
     List(
