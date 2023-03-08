@@ -51,6 +51,7 @@ lazy val root = project
 lazy val docs = project
   .in(file("shiva-docs"))
   .settings(
+    publish / skip := true,
     excludeDependencies ++= Seq(
       ("org.scala-lang.modules" % "scala-collection-compat_2.13"),
       ("com.lihaoyi" % "pprint_2.13"),
