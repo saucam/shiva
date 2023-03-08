@@ -1,9 +1,10 @@
-package com.github.saucam.shiva.hnsw
+package io.github.saucam.shiva.hnsw
 
-import com.github.saucam.shiva.common.DistanceCalculator
-import com.github.saucam.shiva.hnsw.HnswIndexBuilder.DEFAULT_EF
-import com.github.saucam.shiva.hnsw.HnswIndexBuilder.DEFAULT_EF_CONSTRUCTION
-import com.github.saucam.shiva.hnsw.HnswIndexBuilder.DEFAULT_M
+import io.github.saucam.shiva.common.DistanceCalculator
+
+import HnswIndexBuilder.DEFAULT_EF
+import HnswIndexBuilder.DEFAULT_EF_CONSTRUCTION
+import HnswIndexBuilder.DEFAULT_M
 
 case class HnswIndexBuilder[V](
     dimensions: Int,

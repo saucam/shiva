@@ -1,4 +1,5 @@
-package com.github.saucam.shiva.common
+package io.github.saucam.shiva.common
+
 import breeze.linalg._
 
 /**

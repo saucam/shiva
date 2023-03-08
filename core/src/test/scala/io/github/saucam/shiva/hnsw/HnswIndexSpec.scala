@@ -1,10 +1,9 @@
-package com.github.saucam.shiva.hnsw
+package io.github.saucam.shiva.hnsw
 
+import io.github.saucam.shiva.common.EuclideanDistanceDouble
 import org.scalatest.Inspectors
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
-
-import com.github.saucam.shiva.common.EuclideanDistanceDouble
 
 class HnswIndexSpec extends AnyFunSuite with Matchers with Inspectors {
 

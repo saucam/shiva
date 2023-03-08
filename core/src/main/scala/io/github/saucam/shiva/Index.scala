@@ -1,4 +1,4 @@
-package com.github.saucam.shiva
+package io.github.saucam.shiva
 
 trait Index[I] extends Serializable {
 

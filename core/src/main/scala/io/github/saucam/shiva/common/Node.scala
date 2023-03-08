@@ -1,4 +1,4 @@
-package com.github.saucam.shiva.common
+package io.github.saucam.shiva.common
 
 import it.unimi.dsi.fastutil.ints.IntArrayList
 

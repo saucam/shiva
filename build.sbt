@@ -5,7 +5,7 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 
 inThisBuild(
   List(
-    organization := "com.github.saucam",
+    organization := "io.github.saucam",
     licenses := List(
       "Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")
     ),
@@ -13,7 +13,7 @@ inThisBuild(
       Developer(
         "saucam",
         "Yash Datta",
-        "yd2590@gmail.com",
+        "yd2590@columbia.edu",
         url("https://github.com/saucam")
       )
     )
@@ -31,7 +31,7 @@ lazy val core = project
     .in(file("core"))
     .enablePlugins(BuildInfoPlugin)
     .settings(dottySettings)
-    .settings(stdSettings("shiva-core"))
+    .settings(stdSettings("shiva-core") ++ publishSettings())
     .settings(
       libraryDependencies ++= List(
         breeze,
