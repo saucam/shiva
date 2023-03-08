@@ -1,21 +1,23 @@
 package io.github.saucam.shiva
 
-trait Index[I] extends Serializable {
+/**
+ * @tparam TId type of the id of the item to be added to the index
+ * @tparam I type of item to be added to the index
+ */
+trait Index[TId, I] extends Serializable {
 
   /**
-   * Add a new vector to the index. Returns the id of the newly added vector in the index,
-   * which can later be used to retrieve the vector. Returns -1 if a problem is encountered
-   * while adding the vector.
+   * Add a new item to the index. Returns true if item was success
    * @param v
    */
-  def add(v: I): Int
+  def add(v: I): Boolean
 
   /**
    * Check if item is present in the index
-   * @param id unique identifier of the item
+   * @param id unique id of the item
    * @return
    */
-  def contains(id: Int): Boolean
+  def contains(id: TId): Boolean
 
   /**
    * Add all vectors to the index. Returns the ids of the newly added vectors in the index,
@@ -32,9 +34,9 @@ trait Index[I] extends Serializable {
   def size(): Int
 
   /**
-   * Returns a Vector by its identifier
+   * Returns an Item by its identifier
    * @param id
    * @return
    */
-  def get(id: Int): Option[I]
+  def get(id: TId): Option[I]
 }
