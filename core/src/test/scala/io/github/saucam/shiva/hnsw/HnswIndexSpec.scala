@@ -68,6 +68,43 @@ class HnswIndexSpec extends AnyFunSuite with Matchers with Inspectors {
     index.get(1) should equal(Option(item))
   }
 
+  test("Adding same item with same id will not add the item again in Hnsw Index") {
+    val index = HnswIndexBuilder[Int, Double, IntDoubleIndexItem](
+      dimensions = 3,
+      maxItemCount = 1000000,
+      m = 32,
+      distanceCalculator = new EuclideanDistanceDouble
+    ).build()
+
+    val item1 = IntDoubleIndexItem(1, Vector(4.05d, 1.06d, 7.8d))
+
+    val res1 = index.add(item1)
+    val res2 = index.add(item1)
+
+    res1 should equal(true)
+    res2 should equal(true)
+    index.size() should equal(1)
+  }
+
+  test("Adding another item with same id will not add the item again in Hnsw Index") {
+    val index = HnswIndexBuilder[Int, Double, IntDoubleIndexItem](
+      dimensions = 3,
+      maxItemCount = 1000000,
+      m = 32,
+      distanceCalculator = new EuclideanDistanceDouble
+    ).build()
+
+    val item1 = IntDoubleIndexItem(1, Vector(4.05d, 1.06d, 7.8d))
+    val item2 = IntDoubleIndexItem(1, Vector(8.01d, 2.06d, 1.8d))
+
+    val res1 = index.add(item1)
+    val res2 = index.add(item2)
+
+    res1 should equal(true)
+    res2 should equal(false)
+    index.size() should equal(1)
+  }
+
   test("Can retrieve item from itemId from Hnsw Index") {
     val index = HnswIndexBuilder[Int, Double, IntDoubleIndexItem](
       dimensions = 3,

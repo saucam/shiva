@@ -57,6 +57,6 @@ trait Index[TId, V, I <: Item[TId, V]] extends Serializable {
 
   def findKSimilarItems(id: TId, k: Int): List[SearchResult[TId, V]] =
     get(id)
-      .map(item => findNearestNeighbors(item.vector(), k + 1).filter(_.id != id))
+      .map(item => findNearestNeighbors(item.vector, k + 1).filter(_.id != id))
       .getOrElse(List.empty)
 }

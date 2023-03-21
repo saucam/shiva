@@ -73,14 +73,14 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
       connections(level) = new IntArrayList(levelM)
     }
 
-    if (lookup containsKey v.id()) {
+    if (lookup containsKey v.id) {
 
-      val nodeId = lookup.getInt(v.id())
+      val nodeId = lookup.getInt(v.id)
 
       val node = nodes(nodeId)
 
       // Case of re-insertion, simply return true
-      if (node.item.vector() equals v.vector()) {
+      if (node.item.vector equals v.vector) {
         return true
       } else {
         // Do we want to handle the case of replacement?
@@ -101,7 +101,7 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
     nodes(newNodeId) = newNode
 
     // Store the item id to nodeId mapping
-    lookup.put(v.id(), newNodeId)
+    lookup.put(v.id, newNodeId)
 
     // Run a nearest neighbour search across levels, and make connections
     val epCopy = entryPoint
@@ -112,7 +112,7 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
 
       if (newNode.maxLevel() < epCopy.get.maxLevel()) {
 
-        var curDist = distanceCalculator.computeDistance(v.vector(), currObj.get.item.vector())
+        var curDist = distanceCalculator.computeDistance(v.vector, currObj.get.item.vector)
 
         (epCopy.get.maxLevel() to newNode.maxLevel() by -1) foreach { activeLevel =>
           var changed = true
@@ -125,7 +125,7 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
             import scala.jdk.CollectionConverters._
             candidateConnections.asScala.foreach { candidateId =>
               val candidateNode = nodes(candidateId)
-              val candidateDistance = distanceCalculator.computeDistance(v.vector(), candidateNode.item.vector())
+              val candidateDistance = distanceCalculator.computeDistance(v.vector, candidateNode.item.vector)
               if (candidateDistance < curDist) {
                 curDist = candidateDistance
                 currObj = Option(candidateNode)
@@ -138,7 +138,7 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
       }
 
       (Math.min(rndLevel, epCopy.get.maxLevel()) to 0 by -1) foreach { level =>
-        val topCandidates = searchBaseLayer(currObj.get, v.vector(), efConstruction, level)
+        val topCandidates = searchBaseLayer(currObj.get, v.vector, efConstruction, level)
         connectNewNode(level, newNode, topCandidates)
       }
     }
@@ -161,7 +161,7 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
     val bestN = if (level == 0) maxM0 else maxM
 
     val newNodeId = node.id
-    val newItemVector = node.item.vector()
+    val newItemVector = node.item.vector
     val newItemConnections = node.connections(level)
 
     val topCandidates = getNeighborsByHeuristic(topCandidatesP, m)
@@ -180,7 +180,7 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
 
         val neighbourNode = nodes(selectedNeighbourId)
 
-        val neighbourVector = neighbourNode.item.vector()
+        val neighbourVector = neighbourNode.item.vector
         val neighbourConnectionsAtLevel = neighbourNode.connections(level)
 
         if (neighbourConnectionsAtLevel.size < bestN) {
@@ -194,7 +194,7 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
           val it = neighbourConnectionsAtLevel.iterator()
           while (it.hasNext) {
             val id = it.nextInt()
-            val dist = distanceCalculator.computeDistance(neighbourVector, nodes(id).item.vector())
+            val dist = distanceCalculator.computeDistance(neighbourVector, nodes(id).item.vector)
             candidates.addOne(NodeWithDistance(id, dist))
           }
 
@@ -227,8 +227,8 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
           val distToQuery = currentPair.distance
           val good = acc.forall { secondPair =>
             val curdist = distanceCalculator.computeDistance(
-              nodes(secondPair.nodeId).item.vector(),
-              nodes(currentPair.nodeId).item.vector()
+              nodes(secondPair.nodeId).item.vector,
+              nodes(currentPair.nodeId).item.vector
             )
             !(curdist < distToQuery)
           }
@@ -258,7 +258,7 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
       val candidateSet =
         mutable.PriorityQueue.empty[NodeWithDistance](Ordering.by((nd: NodeWithDistance) => nd.distance))
 
-      val distance = distanceCalculator.computeDistance(destination, entryPointNode.item.vector())
+      val distance = distanceCalculator.computeDistance(destination, entryPointNode.item.vector)
       var lowerBound = distance
 
       val pair = NodeWithDistance(entryPointNode.id, distance)
@@ -283,7 +283,7 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
           if (!visitedBitSet.contains(candidateId)) {
             visitedBitSet.add(candidateId)
             val candidateNode = nodes(candidateId)
-            val candidateDistance = distanceCalculator.computeDistance(destination, candidateNode.item.vector())
+            val candidateDistance = distanceCalculator.computeDistance(destination, candidateNode.item.vector)
 
             if (topCandidates.size < k || (lowerBound > candidateDistance)) {
               val candidatePair = NodeWithDistance(candidateId, candidateDistance)
@@ -316,7 +316,7 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
       case None => List.empty
       case Some(entryPointCopy) =>
         var currObj = entryPointCopy
-        var curDist = distanceCalculator.computeDistance(destination, currObj.item.vector())
+        var curDist = distanceCalculator.computeDistance(destination, currObj.item.vector)
         // distanceFunction(destination, currObj.item.vector())
 
         for (activeLevel <- entryPointCopy.maxLevel() to 1 by -1) {
@@ -331,7 +331,7 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
               val candidateId = candidateConnections.getInt(i)
 
               val candidateDistance =
-                distanceCalculator.computeDistance(destination, nodes(candidateId).item.vector())
+                distanceCalculator.computeDistance(destination, nodes(candidateId).item.vector)
               // distanceFunction(destination, nodes(candidateId).item.vector())
               if (candidateDistance < curDist) {
                 curDist = candidateDistance
@@ -347,7 +347,7 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
 
         val results = List.fill(topCandidates.size) {
           val pair = topCandidates.dequeue()
-          SearchResult(nodes(pair.nodeId).item.id(), pair.distance)
+          SearchResult(nodes(pair.nodeId).item.id, pair.distance)
         }
 
         results
