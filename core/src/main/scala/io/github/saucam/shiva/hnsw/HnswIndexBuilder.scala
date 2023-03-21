@@ -1,6 +1,8 @@
 package io.github.saucam.shiva.hnsw
 
-import io.github.saucam.shiva.common.{DistanceCalculator, Item}
+import io.github.saucam.shiva.common.DistanceCalculator
+import io.github.saucam.shiva.common.Item
+
 import HnswIndexBuilder.DEFAULT_EF
 import HnswIndexBuilder.DEFAULT_EF_CONSTRUCTION
 import HnswIndexBuilder.DEFAULT_M

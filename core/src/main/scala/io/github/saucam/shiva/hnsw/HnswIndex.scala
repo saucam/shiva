@@ -1,20 +1,19 @@
 package io.github.saucam.shiva.hnsw
 
 import scala.annotation.tailrec
-import io.github.saucam.shiva.{Index, SearchResult}
-import io.github.saucam.shiva.common.{DistanceCalculator, Item, Node}
-import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap
-import it.unimi.dsi.fastutil.ints.IntArrayList
-import HnswIndex.INVALID_ID
-import io.github.saucam.shiva.exception.SizeLimitExceededException
-import it.unimi.dsi.fastutil.objects.{Object2IntMap, Object2IntOpenHashMap}
-import breeze.linalg._
-import spire.implicits.metricSpaceOps
-
-import scala.collection.{BitSet, mutable}
-import scala.collection.mutable.ListBuffer
+import scala.collection.mutable
 import scala.math.Ordered.orderingToOrdered
 import scala.{specialized => spec}
+
+import breeze.linalg._
+import io.github.saucam.shiva.Index
+import io.github.saucam.shiva.SearchResult
+import io.github.saucam.shiva.common.DistanceCalculator
+import io.github.saucam.shiva.common.Item
+import io.github.saucam.shiva.common.Node
+import io.github.saucam.shiva.exception.SizeLimitExceededException
+import it.unimi.dsi.fastutil.ints.IntArrayList
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap
 
 class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
     dimensions: Int,
@@ -153,8 +152,6 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
   }
 
   case class NodeWithDistance(nodeId: Int, distance: V)
-
-  import scala.jdk.CollectionConverters._
 
   def connectNewNode(
       level: Int,

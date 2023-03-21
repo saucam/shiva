@@ -1,7 +1,7 @@
 package io.github.saucam.shiva
 
-import io.github.saucam.shiva.common.Item
 import breeze.linalg._
+import io.github.saucam.shiva.common.Item
 
 case class SearchResult[TId, V](id: TId, distance: V)
 

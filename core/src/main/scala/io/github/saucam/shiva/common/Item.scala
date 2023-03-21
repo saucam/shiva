@@ -1,7 +1,8 @@
 package io.github.saucam.shiva.common
 
-import breeze.linalg._
 import scala.{specialized => spec}
+
+import breeze.linalg._
 
 trait Item[I, @spec(Int, Double, Float) V] extends Serializable {
 

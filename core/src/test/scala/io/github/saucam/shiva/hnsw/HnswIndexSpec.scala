@@ -1,11 +1,12 @@
 package io.github.saucam.shiva.hnsw
 
-import io.github.saucam.shiva.common.{EuclideanDistanceDouble, IntDoubleIndexItem}
+import breeze.linalg._
+import io.github.saucam.shiva.SearchResult
+import io.github.saucam.shiva.common.EuclideanDistanceDouble
+import io.github.saucam.shiva.common.IntDoubleIndexItem
 import org.scalatest.Inspectors
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
-import breeze.linalg._
-import io.github.saucam.shiva.SearchResult
 
 class HnswIndexSpec extends AnyFunSuite with Matchers with Inspectors {
 

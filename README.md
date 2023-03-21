@@ -24,6 +24,24 @@ sdk env
 
 To setup required java version.
 
+### Formatting and Linting
+
+Before opening a PR, please format and lint by executing
+
+```
+sbt fmt
+```
+
+```
+sbt fix
+```
+
+You can check if everything is alright by executing
+
+```
+sbt check
+```
+
 ### Running tests
 
 ```
