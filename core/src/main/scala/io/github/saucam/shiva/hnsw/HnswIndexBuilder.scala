@@ -1,12 +1,13 @@
 package io.github.saucam.shiva.hnsw
 
 import io.github.saucam.shiva.common.DistanceCalculator
+import io.github.saucam.shiva.common.Item
 
 import HnswIndexBuilder.DEFAULT_EF
 import HnswIndexBuilder.DEFAULT_EF_CONSTRUCTION
 import HnswIndexBuilder.DEFAULT_M
 
-case class HnswIndexBuilder[V](
+case class HnswIndexBuilder[TId, V: Ordering, I <: Item[TId, V]](
     dimensions: Int,
     maxItemCount: Int,
     m: Int = DEFAULT_M,
@@ -25,14 +26,14 @@ case class HnswIndexBuilder[V](
    * in the lower layers, upto Mmax for layer1 and Mmax0 for layer 0.
    * @return
    */
-  def withM(m: Int): HnswIndexBuilder[V] = this.copy(m = m)
+  def withM(m: Int): HnswIndexBuilder[TId, V, I] = this.copy(m = m)
 
   /**
    * @param ef: The size of list of nearest neighbours to the search vector created during
    * search at each layer. Higher ef leads to more accurate but slower search.
    * @return
    */
-  def withEf(ef: Int): HnswIndexBuilder[V] = this.copy(ef = ef)
+  def withEf(ef: Int): HnswIndexBuilder[TId, V, I] = this.copy(ef = ef)
 
   /**
    * @param efConstruction: The size of the list of nearest neighbours to the insertion vector
@@ -43,16 +44,16 @@ case class HnswIndexBuilder[V](
    * nearest neighbours of size efConstruction.
    * @return
    */
-  def withEfConstruction(efConstruction: Int): HnswIndexBuilder[V] = this.copy(efConstruction = efConstruction)
+  def withEfConstruction(efConstruction: Int): HnswIndexBuilder[TId, V, I] = this.copy(efConstruction = efConstruction)
 
-  def build(): HnswIndex[V] =
-    new HnswIndex[V](
+  def build(): HnswIndex[TId, V, I] =
+    new HnswIndex[TId, V, I](
       dimensions = this.dimensions,
       maxItemCount = this.maxItemCount,
       m = this.m,
       maxM = this.m,
       maxM0 = this.m * 2,
-      mL = 1 / Math.log(this.m),
+      mL = 1 / Math.log(this.m.toDouble),
       efConstruction = this.efConstruction,
       ef = this.ef,
       distanceCalculator = this.distanceCalculator

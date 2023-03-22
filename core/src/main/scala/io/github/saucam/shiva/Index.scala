@@ -1,21 +1,36 @@
 package io.github.saucam.shiva
 
-trait Index[I] extends Serializable {
+import breeze.linalg._
+import io.github.saucam.shiva.common.Item
+
+case class SearchResult[TId, V](id: TId, distance: V)
+
+/**
+ * @tparam TId type of the id of the item to be added to the index
+ * @tparam I type of item to be added to the index
+ */
+trait Index[TId, V, I <: Item[TId, V]] extends Serializable {
 
   /**
-   * Add a new vector to the index. Returns the id of the newly added vector in the index,
-   * which can later be used to retrieve the vector. Returns -1 if a problem is encountered
-   * while adding the vector.
+   * Returns item by its identifier. NoSuchElementException is thrown if item
+   * does not exist in the index.
+   * @param id
+   * @return
+   */
+  def apply(id: TId): I = get(id).getOrElse(throw new NoSuchElementException)
+
+  /**
+   * Add a new item to the index. Returns true if item was success
    * @param v
    */
-  def add(v: I): Int
+  def add(v: I): Boolean
 
   /**
    * Check if item is present in the index
-   * @param id unique identifier of the item
+   * @param id unique id of the item
    * @return
    */
-  def contains(id: Int): Boolean
+  def contains(id: TId): Boolean
 
   /**
    * Add all vectors to the index. Returns the ids of the newly added vectors in the index,
@@ -32,9 +47,16 @@ trait Index[I] extends Serializable {
   def size(): Int
 
   /**
-   * Returns a Vector by its identifier
+   * Returns an Item by its identifier
    * @param id
    * @return
    */
-  def get(id: Int): Option[I]
+  def get(id: TId): Option[I]
+
+  def findNearestNeighbors(vector: Vector[V], k: Int): List[SearchResult[TId, V]]
+
+  def findKSimilarItems(id: TId, k: Int): List[SearchResult[TId, V]] =
+    get(id)
+      .map(item => findNearestNeighbors(item.vector, k + 1).filter(_.id != id))
+      .getOrElse(List.empty)
 }

@@ -43,6 +43,7 @@ lazy val core = project
 lazy val root = project
     .in(file("."))
     .settings(
+      name := "shiva",
       publish / skip := true,
       scalaVersion := `shiva.scala.version`
     )
