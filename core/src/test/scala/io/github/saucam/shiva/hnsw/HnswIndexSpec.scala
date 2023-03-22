@@ -146,7 +146,7 @@ class HnswIndexSpec extends AnyFunSuite with Matchers with Inspectors {
     index.contains(13131) should equal(false)
   }
 
-  test("Find nearest neighbours of item in Hnsw Index") {
+  test("Find (all) nearest neighbours of item in Hnsw Index") {
 
     val index = HnswIndexBuilder[Int, Double, IntDoubleIndexItem](
       dimensions = 3,
@@ -165,9 +165,28 @@ class HnswIndexSpec extends AnyFunSuite with Matchers with Inspectors {
 
     val results = index.findKSimilarItems(item1.id, 10)
 
-    results should contain inOrderOnly (
+    results should contain theSameElementsInOrderAs List(
       SearchResult(item2.id, 7.258209145512411d),
       SearchResult(item3.id, 7.353509366282196d)
     )
+  }
+
+  test("Find nearest neighbours of item in a large Hnsw Index") {
+
+    val index = HnswIndexBuilder[Int, Double, IntDoubleIndexItem](
+      dimensions = 3,
+      maxItemCount = 10000,
+      m = 10,
+      distanceCalculator = new EuclideanDistanceDouble
+    ).build()
+
+    (1 until 10000).foreach { i =>
+      val item = IntDoubleIndexItem(i, Vector(4.05d + i, 1.06d, 7.8d))
+      index.add(item)
+    }
+
+    val results = index.findKSimilarItems(1, 5).map(_.id)
+
+    results should contain theSameElementsInOrderAs List(2, 3, 4, 5, 6)
   }
 }

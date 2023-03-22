@@ -53,7 +53,7 @@ case class HnswIndexBuilder[TId, V: Ordering, I <: Item[TId, V]](
       m = this.m,
       maxM = this.m,
       maxM0 = this.m * 2,
-      mL = 1 / Math.log(this.m),
+      mL = 1 / Math.log(this.m.toDouble),
       efConstruction = this.efConstruction,
       ef = this.ef,
       distanceCalculator = this.distanceCalculator
