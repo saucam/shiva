@@ -64,4 +64,4 @@ results.foreach(println())
 ```
 
 ## Contributing
-See the [contributor's guide](../CONTRIBUTING.md)
+See the [contributor's guide](CONTRIBUTING.md)
