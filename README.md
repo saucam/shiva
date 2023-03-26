@@ -62,3 +62,6 @@ index.add(item3)
 val results = index.findKSimilarItems(item1.id, 10)
 results.foreach(println())
 ```
+
+## Contributing
+See the [contributor's guide](../CONTRIBUTING.md)
