@@ -3,6 +3,9 @@ import Dependencies._
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
+sonatypeCredentialHost := "s01.oss.sonatype.org"
+sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
+
 inThisBuild(
   List(
     organization := "io.github.saucam",
@@ -31,7 +34,7 @@ lazy val core = project
     .in(file("core"))
     .enablePlugins(BuildInfoPlugin)
     .settings(dottySettings)
-    .settings(stdSettings("shiva-core") ++ publishSettings())
+    .settings(stdSettings("shiva-core"))
     .settings(
       libraryDependencies ++= List(
         breeze,
