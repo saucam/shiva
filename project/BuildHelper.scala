@@ -121,12 +121,6 @@ object BuildHelper {
     "-Ywarn-value-discard"
   )
 
-  def publishSettings() =
-    List(
-      sonatypeCredentialHost := "s01.oss.sonatype.org",
-      sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
-    )
-
   def stdSettings(prjName: String) =
     List(
       name := s"$prjName",
