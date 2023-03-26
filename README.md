@@ -6,7 +6,7 @@ shiva is a library for Simple High dimensional Indexed Vector search Algorithms.
 [![CI](https://github.com/saucam/shiva/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/saucam/shiva/actions/workflows/ci.yaml)
 [![codecov](https://codecov.io/gh/saucam/shiva/branch/main/graph/badge.svg?token=7UDJE3NX5K)](https://codecov.io/gh/saucam/shiva)
 [![Sonatype Snapshots](https://img.shields.io/nexus/s/io.github.saucam/shiva-core_2.13?server=https%3A%2F%2Fs01.oss.sonatype.org%2F)](https://s01.oss.sonatype.org/content/repositories/snapshots/io/github/saucam/shiva-core_2.13/)
-[![Sonatype Releases](https://img.shields.io/nexus/r/io.github.saucam/shiva-core_2.13?nexusVersion=3&server=https%3A%2F%2Fs01.oss.sonatype.org)](https://s01.oss.sonatype.org/content/repositories/releases/io/github/saucam/shiva-core_2.13/)
+[![Sonatype Releases](https://img.shields.io/nexus/r/io.github.saucam/shiva-core_2.13?nexusVersion=2&server=https%3A%2F%2Fs01.oss.sonatype.org)](https://s01.oss.sonatype.org/content/repositories/releases/io/github/saucam/shiva-core_2.13/)
 ## Overview
 
 Basic guiding principle is to be:
