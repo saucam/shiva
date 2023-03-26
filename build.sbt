@@ -1,5 +1,6 @@
 import BuildHelper._
 import Dependencies._
+import sbt.Keys._
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -36,6 +37,7 @@ lazy val core = project
     .settings(dottySettings)
     .settings(stdSettings("shiva-core"))
     .settings(
+      homepage := Option(url("https://github.com/saucam/shiva")),
       libraryDependencies ++= List(
         breeze,
         fastutil,
