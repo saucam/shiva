@@ -15,6 +15,23 @@ import io.github.saucam.shiva.exception.SizeLimitExceededException
 import it.unimi.dsi.fastutil.ints.IntArrayList
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap
 
+/**
+ * Implementation of Hierarchical Navigable Small World Graphs (HNSW) as described in
+ * the paper by Yu A. Malkov, D. A. Yashunine (2018) https://arxiv.org/abs/1603.09320
+ * @param dimensions: number of dimensions of the vectors to be indexed
+ * @param maxItemCount: maximum number of items that can be added to the index
+ * @param m: number of nearest neighbours to be assigned to a newly inserted node
+ * @param maxM: maximum number of outgoing connections from a node
+ * @param maxM0: maximum number of outgoing connections from the entry point
+ * @param ef: number of nearest neighbours to consider during the search
+ * @param efConstruction: number of nearest neighbours to consider during the construction
+ * @param mL: level multiplier
+ * @param distanceCalculator: distance calculator to be used
+ * @param ordering: ordering for the type V
+ * @tparam TId: type of the id of the item to be added to the index
+ * @tparam V: type of the vector to be indexed
+ * @tparam I: type of item to be added to the index
+ */
 class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
     dimensions: Int,
     maxItemCount: Int,
@@ -28,10 +45,10 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
 ) extends Index[TId, V, I] {
 
   // Probability of insertion at a given layer
-  type LevelProb = Array[Double]
+  private type LevelProb = Array[Double]
   // Cumulative total of nearest neighbours assigned to a vertex at
   // different insertion levels
-  type LevelDegree = Array[Int]
+  private type LevelDegree = Array[Int]
 
   // Pre-compute some DS
   val (cumulativeNumNNPerLevel, insertionProbPerLevel) = setDefaultProbas(m, mL)
@@ -112,7 +129,7 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
 
       var currObj = epCopy
 
-      if (currObj != None) {
+      if (currObj.isDefined) {
 
         if (newNode.maxLevel() < epCopy.get.maxLevel()) {
 
@@ -158,7 +175,7 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
 
   case class NodeWithDistance(nodeId: Int, distance: V)
 
-  def connectNewNode(
+  private def connectNewNode(
       level: Int,
       node: Node[TId, V, I],
       topCandidatesP: mutable.PriorityQueue[NodeWithDistance]
@@ -386,10 +403,10 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
   private def probabilityAtLevel(level: Int, mL: Double): Double =
     Math.exp(-level / mL) * (1 - Math.exp(-1 / mL))
 
-  def probs(level: Int, mL: Double): LazyList[Double] =
+  private def probs(level: Int, mL: Double): LazyList[Double] =
     LazyList.cons(probabilityAtLevel(level, mL), probs(level + 1, mL))
 
-  def setDefaultProbas(m: Int, mL: Double): (LevelDegree, LevelProb) = {
+  private def setDefaultProbas(m: Int, mL: Double): (LevelDegree, LevelProb) = {
     val probas = probs(0, mL).takeWhile(proba => proba > 1e-9).toArray
     val nnPerLevel = probas.scanLeft(2 * m) {
       case (cumulative, _) => cumulative + m
@@ -417,7 +434,7 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
 
 object HnswIndex {
 
-  val INVALID_ID = -1
+  val INVALID_ID: Int = -1
 
   def apply[TId, @spec(Int, Double, Float) V, I <: Item[TId, V]](builder: HnswIndexBuilder[TId, V, I])
       : HnswIndex[TId, V, I] =

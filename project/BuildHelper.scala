@@ -3,7 +3,6 @@ import Keys._
 import sbtbuildinfo._
 import BuildInfoKeys._
 import scalafix.sbt.ScalafixPlugin.autoImport._
-import xerial.sbt.Sonatype.autoImport._
 
 import java.nio.file.FileSystems
 import java.nio.file.Files

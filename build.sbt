@@ -76,4 +76,4 @@ lazy val docs = project
       "VERSION" -> version.value
     )
   )
-  .enablePlugins(MdocPlugin)
+  .enablePlugins(MdocPlugin, DocusaurusPlugin)
