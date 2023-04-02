@@ -70,10 +70,15 @@ lazy val docs = project
     crossScalaVersions := Seq(Scala213, ScalaDotty),
     scalaVersion := ScalaDotty,
     moduleName := "shiva-docs",
+    unidocProjectFilter in(ScalaUnidoc, unidoc) := inProjects(core),
+    target in(ScalaUnidoc, unidoc) := (baseDirectory in LocalRootProject).value / "website" / "static" / "api",
+    cleanFiles += (target in(ScalaUnidoc, unidoc)).value,
+    docusaurusCreateSite := docusaurusCreateSite.dependsOn(unidoc in Compile).value,
+    docusaurusPublishGhpages := docusaurusPublishGhpages.dependsOn(unidoc in Compile).value,
     scalacOptions -= "-Yno-imports",
     scalacOptions -= "-Xfatal-warnings",
     mdocVariables := Map(
       "VERSION" -> version.value
     )
   )
-  .enablePlugins(MdocPlugin, DocusaurusPlugin)
+  .enablePlugins(MdocPlugin, DocusaurusPlugin, ScalaUnidocPlugin)
