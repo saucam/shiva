@@ -132,6 +132,7 @@ jobs:
         with:
           node-version: 18
           cache: yarn
+          cache-dependency-path: website/yarn.lock
       - name: Generate website
         run: ./sbt docs/docusaurusCreateSite
 
