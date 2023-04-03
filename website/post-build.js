@@ -9,10 +9,10 @@ const updatedContent = indexContent.replace(
     'url=./shiva/index.html'
 ).replace(
     'window.location.href = "shiva/index.html"',
-    'window.location.href = "./shiva/index.html"'
+    'window.location.href = "./index.html"'
 ).replace(
     'href=\'shiva/index.html\'',
-    'href=\'./shiva/index.html\''
+    'href=\'./index.html\''
 );
 
 fs.writeFileSync(indexPath, updatedContent, 'utf-8');
