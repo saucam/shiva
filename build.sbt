@@ -1,6 +1,8 @@
 import BuildHelper._
 import Dependencies._
 import sbt.Keys._
+import scala.sys.process.Process
+import sbt._
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -79,6 +81,15 @@ lazy val docs = project
     scalacOptions -= "-Xfatal-warnings",
     mdocVariables := Map(
       "VERSION" -> version.value
-    )
+    ),
+    postDocusaurusBuild := {
+      Process("node website/post-build.js").!
+    },
+    docusaurusBuildWithPostBuild := Def.sequential(docusaurusCreateSite, postDocusaurusBuild).value
+
   )
   .enablePlugins(MdocPlugin, DocusaurusPlugin, ScalaUnidocPlugin)
+
+val postDocusaurusBuild = taskKey[Unit]("Run post-docusaurus build script")
+val docusaurusBuildWithPostBuild = taskKey[Unit]("Run docusaurus create site with post-build.js")
+
