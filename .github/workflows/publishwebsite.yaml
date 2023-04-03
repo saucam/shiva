@@ -32,7 +32,7 @@ jobs:
       - name: Cache scala dependencies
         uses: coursier/cache-action@v6
       - name: Generate website
-        run: ./sbt docs/docusaurusCreateSite
+        run: ./sbt docs/docusaurusBuildWithPostBuild
       # Popular action to deploy to GitHub Pages:
       # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
       - name: Deploy to GitHub Pages
