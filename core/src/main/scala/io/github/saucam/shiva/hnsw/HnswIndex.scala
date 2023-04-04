@@ -6,7 +6,8 @@ import scala.math.Ordered.orderingToOrdered
 import scala.{specialized => spec}
 
 import breeze.linalg._
-import io.github.saucam.shiva.{ItemIndex, SearchResult}
+import io.github.saucam.shiva.ItemIndex
+import io.github.saucam.shiva.SearchResult
 import io.github.saucam.shiva.common.DistanceCalculator
 import io.github.saucam.shiva.common.Item
 import io.github.saucam.shiva.common.Node

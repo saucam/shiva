@@ -2,7 +2,9 @@ package io.github.saucam.shiva.hnsw
 
 import breeze.linalg._
 import io.github.saucam.shiva.SearchResult
-import io.github.saucam.shiva.common.{EuclideanDistanceDouble, IntDoubleIndexItem, LongDoubleIndexItem}
+import io.github.saucam.shiva.common.EuclideanDistanceDouble
+import io.github.saucam.shiva.common.IntDoubleIndexItem
+import io.github.saucam.shiva.common.LongDoubleIndexItem
 import org.scalatest.Inspectors
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
