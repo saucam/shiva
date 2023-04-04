@@ -1,3 +1,10 @@
+---
+id: Code_of_Conduct
+title: Contributor Covenant Code of Conduct
+slug: /code
+---
+
+
 # Contributor Covenant Code of Conduct
 
 ## Our Pledge

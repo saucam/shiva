@@ -1,3 +1,10 @@
+---
+id: Contributing
+title: Contributor's guide
+slug: /contributing
+---
+
+
 # Welcome to shiva contributor's guide
 
 Thank you for investing your time in contributing to the project! 

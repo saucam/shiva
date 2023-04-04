@@ -67,11 +67,17 @@ const config = {
         },
         hideOnScroll: true,
         items: [
-          {
+          /** {
             type: 'docSidebar',
             sidebarId: 'tutorialSidebar',
             position: 'left',
             label: 'Tutorial',
+          }, **/
+          {
+            type: 'doc',
+            docId: 'README',
+            label: 'Tutorial',
+            position: 'left'
           },
           /**{to: '/blog', label: 'Blog', position: 'left'},**/
           {
@@ -93,8 +99,12 @@ const config = {
             title: 'Docs',
             items: [
               {
+                label: 'Scaladoc',
+                href: 'https://saucam.github.io/shiva/api/index.html',
+              },
+              {
                 label: 'Tutorial',
-                to: 'docs',
+                to: 'docs/readme',
               },
             ],
           },

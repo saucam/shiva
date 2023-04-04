@@ -1,6 +1,7 @@
 ---
 id: README
 title: README
+slug: /readme
 ---
 
 
