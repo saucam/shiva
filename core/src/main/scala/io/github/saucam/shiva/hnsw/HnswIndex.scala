@@ -6,8 +6,7 @@ import scala.math.Ordered.orderingToOrdered
 import scala.{specialized => spec}
 
 import breeze.linalg._
-import io.github.saucam.shiva.Index
-import io.github.saucam.shiva.SearchResult
+import io.github.saucam.shiva.{ItemIndex, SearchResult}
 import io.github.saucam.shiva.common.DistanceCalculator
 import io.github.saucam.shiva.common.Item
 import io.github.saucam.shiva.common.Node
@@ -42,7 +41,7 @@ class HnswIndex[TId, @spec(Int, Double, Float) V: Ordering, I <: Item[TId, V]](
     efConstruction: Int,
     mL: Double,
     distanceCalculator: DistanceCalculator[V]
-) extends Index[TId, V, I] {
+) extends ItemIndex[TId, V, I] {
 
   // Probability of insertion at a given layer
   private type LevelProb = Array[Double]

@@ -17,7 +17,7 @@ case class SearchResult[TId, V](id: TId, distance: V)
  * @tparam TId: type of the id of the item to be added to the index
  * @tparam I: type of item to be added to the index
  */
-trait Index[TId, V, I <: Item[TId, V]] extends Serializable {
+trait ItemIndex[TId, V, I <: Item[TId, V]] extends Serializable {
 
   /**
    * Returns item by its identifier. NoSuchElementException is thrown if item

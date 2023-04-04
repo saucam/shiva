@@ -46,7 +46,7 @@ const config = {
           // editUrl:
           //  'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
-        blog: {},
+        blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
@@ -65,6 +65,7 @@ const config = {
           alt: 'My Site Logo',
           src: 'img/logo.svg',
         },
+        hideOnScroll: true,
         items: [
           {
             type: 'docSidebar',
@@ -76,6 +77,11 @@ const config = {
           {
             href: 'https://github.com/saucam/shiva',
             label: 'GitHub',
+            position: 'right',
+          },
+          {
+            href: 'https://saucam.github.io/shiva/api/index.html',
+            label: 'Scaladoc',
             position: 'right',
           },
         ],
