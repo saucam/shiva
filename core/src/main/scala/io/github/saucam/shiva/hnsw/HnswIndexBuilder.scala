@@ -7,6 +7,19 @@ import HnswIndexBuilder.DEFAULT_EF
 import HnswIndexBuilder.DEFAULT_EF_CONSTRUCTION
 import HnswIndexBuilder.DEFAULT_M
 
+/**
+ * Builder for HnswIndex
+ * @param dimensions: The dimensionality of the vectors to be indexed
+ * @param maxItemCount: The maximum number of items that can be indexed
+ * @param m: The number of bi-directional links created for every new element during construction of the hnsw index.
+ * @param ef: The size of list of nearest neighbours to the search vector created during search at each layer.
+ * @param efConstruction: The size of list of nearest neighbours to the search vector created during construction at each layer.
+ * @param distanceCalculator: The distance calculator to be used for calculating the distance between 2 vectors.
+ * @param ordering: The ordering to be used for comparing the distances between 2 vectors.
+ * @tparam TId: The type of the id of the item to be indexed (e.g. String, Int, Long)
+ * @tparam V: The type of the vector to be indexed (e.g. DenseVector[Double], DenseVector[Float], DenseVector[Int]).
+ * @tparam I: The type of the item to be indexed.
+ */
 case class HnswIndexBuilder[TId, V: Ordering, I <: Item[TId, V]](
     dimensions: Int,
     maxItemCount: Int,

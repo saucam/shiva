@@ -4,6 +4,7 @@ import breeze.linalg._
 import io.github.saucam.shiva.SearchResult
 import io.github.saucam.shiva.common.EuclideanDistanceDouble
 import io.github.saucam.shiva.common.IntDoubleIndexItem
+import io.github.saucam.shiva.common.LongDoubleIndexItem
 import org.scalatest.Inspectors
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
@@ -87,15 +88,15 @@ class HnswIndexSpec extends AnyFunSuite with Matchers with Inspectors {
   }
 
   test("Adding another item with same id will not add the item again in Hnsw Index") {
-    val index = HnswIndexBuilder[Int, Double, IntDoubleIndexItem](
+    val index = HnswIndexBuilder[Long, Double, LongDoubleIndexItem](
       dimensions = 3,
       maxItemCount = 1000000,
       m = 32,
       distanceCalculator = new EuclideanDistanceDouble
     ).build()
 
-    val item1 = IntDoubleIndexItem(1, Vector(4.05d, 1.06d, 7.8d))
-    val item2 = IntDoubleIndexItem(1, Vector(8.01d, 2.06d, 1.8d))
+    val item1 = LongDoubleIndexItem(1L, Vector(4.05d, 1.06d, 7.8d))
+    val item2 = LongDoubleIndexItem(1L, Vector(8.01d, 2.06d, 1.8d))
 
     val res1 = index.add(item1)
     val res2 = index.add(item2)

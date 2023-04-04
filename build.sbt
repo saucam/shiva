@@ -1,11 +1,14 @@
 import BuildHelper._
 import Dependencies._
 import sbt.Keys._
+import sbt._
+import scala.sys.process._
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
+ThisBuild / autoAPIMappings := true
 
-sonatypeCredentialHost := "s01.oss.sonatype.org"
-sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
+ThisBuild / sonatypeCredentialHost := "s01.oss.sonatype.org"
+ThisBuild / sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
 
 inThisBuild(
   List(
@@ -33,7 +36,7 @@ addCommandAlias("prepare", "fix; fmt")
 
 lazy val core = project
     .in(file("core"))
-    .enablePlugins(BuildInfoPlugin)
+    .enablePlugins(BuildInfoPlugin, ScalaUnidocPlugin)
     .settings(dottySettings)
     .settings(stdSettings("shiva-core"))
     .settings(
@@ -42,11 +45,15 @@ lazy val core = project
         breeze,
         fastutil,
         scalaTest
-      )
+      ),
+      target in(ScalaUnidoc, unidoc) := (baseDirectory in LocalRootProject).value / "website" / "static" / "api",
+      // Compile / unidoc / target := baseDirectory.value / ".." / "website" / "static" / "api",
+      cleanFiles += (target in(unidoc)).value
     )
 
 lazy val root = project
     .in(file("."))
+    .enablePlugins(ScalaUnidocPlugin)
     .settings(
       name := "shiva",
       publish / skip := true,
@@ -70,10 +77,23 @@ lazy val docs = project
     crossScalaVersions := Seq(Scala213, ScalaDotty),
     scalaVersion := ScalaDotty,
     moduleName := "shiva-docs",
+    unidocProjectFilter in(ScalaUnidoc, unidoc) := inProjects(core),
+    target in(ScalaUnidoc, unidoc) := (baseDirectory in LocalRootProject).value / "website" / "static" / "api",
+    cleanFiles += (target in(ScalaUnidoc, unidoc)).value,
+    docusaurusCreateSite := docusaurusCreateSite.dependsOn(unidoc in (core, Compile)).value,
+    docusaurusPublishGhpages := docusaurusPublishGhpages.dependsOn(Compile / unidoc).value,
     scalacOptions -= "-Yno-imports",
     scalacOptions -= "-Xfatal-warnings",
     mdocVariables := Map(
       "VERSION" -> version.value
-    )
+    ),
+    postDocusaurusBuild := {
+      Process("node website/post-build.js").!
+    },
+    docusaurusBuildWithPostBuild := Def.sequential(docusaurusCreateSite, postDocusaurusBuild).value
   )
-  .enablePlugins(MdocPlugin)
+  .enablePlugins(MdocPlugin, DocusaurusPlugin, ScalaUnidocPlugin)
+  .dependsOn(core)
+
+val postDocusaurusBuild = taskKey[Unit]("Run post-docusaurus build script")
+val docusaurusBuildWithPostBuild = taskKey[Unit]("Run docusaurus create site with post-build.js")

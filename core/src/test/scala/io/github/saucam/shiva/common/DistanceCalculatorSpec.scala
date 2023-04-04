@@ -41,4 +41,28 @@ class DistanceCalculatorSpec extends AnyFunSuite with Matchers with Inspectors {
 
     edf.computeDistance(kd, rd) should be(0.02828427d +- marginf)
   }
+
+  test("Cosine similarity distance float is calculated correctly") {
+    val csf = new CosineSimilarityFloat
+
+    csf.computeDistance(kf, rf) should be(0.28571428f +- marginf)
+  }
+
+  test("Cosine similarity distance double is calculated correctly") {
+    val csd = new CosineSimilarityDouble
+
+    csd.computeDistance(kd, rd) should be(0.28571428d +- margind)
+  }
+
+  test("Manhattan distance float is calculated correctly") {
+    val mdf = new ManhattanDistanceFloat
+
+    mdf.computeDistance(kf, rf) should be(0.04f +- marginf)
+  }
+
+  test("Manhattan distance double is calculated correctly") {
+    val mdd = new ManhattanDistanceDouble
+
+    mdd.computeDistance(kd, rd) should be(0.04d +- margind)
+  }
 }

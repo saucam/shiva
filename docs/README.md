@@ -1,3 +1,10 @@
+---
+id: README
+title: README
+slug: /readme
+---
+
+
 # shiva [WIP]
 shiva is a library for Simple High dimensional Indexed Vector search Algorithms.
 
