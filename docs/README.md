@@ -73,5 +73,14 @@ val results = index.findKSimilarItems(item1.id, 10)
 results.foreach(println())
 ```
 
+### Distance Metrics
+
+Currently supported distance metrics are:
+- Inner Product
+- Euclidean Distance
+- Cosine Distance
+- Manhattan Distance
+- Minkowski Distance
+
 ## Contributing
 See the [contributor's guide](CONTRIBUTING.md)
