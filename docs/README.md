@@ -28,7 +28,7 @@ Basic guiding principle is to be:
 ## Installation
 To use Shiva, add the following to your ```build.sbt```
 
-For releases versions:
+For release versions:
 ```scala
 resolvers +=
   "Sonatype OSS Releases" at "https://s01.oss.sonatype.org/content/repositories/releases"
@@ -72,6 +72,15 @@ index.add(item3)
 val results = index.findKSimilarItems(item1.id, 10)
 results.foreach(println())
 ```
+
+### Distance Metrics
+
+Currently supported distance metrics are:
+- Inner Product
+- Euclidean Distance
+- Cosine Distance
+- Manhattan Distance
+- Minkowski Distance
 
 ## Contributing
 See the [contributor's guide](CONTRIBUTING.md)

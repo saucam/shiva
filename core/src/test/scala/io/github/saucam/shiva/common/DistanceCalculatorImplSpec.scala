@@ -5,7 +5,7 @@ import org.scalatest.Inspectors
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
 
-class DistanceCalculatorSpec extends AnyFunSuite with Matchers with Inspectors {
+class DistanceCalculatorImplSpec extends AnyFunSuite with Matchers with Inspectors {
 
   val kf: Vector[Float] = Vector.apply(0.01f, 0.02f, 0.03f)
   val rf: Vector[Float] = Vector.apply(0.03f, 0.02f, 0.01f)
@@ -39,7 +39,7 @@ class DistanceCalculatorSpec extends AnyFunSuite with Matchers with Inspectors {
   test("Euclidean distance double is calculated correctly") {
     val edf = new EuclideanDistanceDouble
 
-    edf.computeDistance(kd, rd) should be(0.02828427d +- marginf)
+    edf.computeDistance(kd, rd) should be(0.02828427d +- margind)
   }
 
   test("Cosine similarity distance float is calculated correctly") {
@@ -64,5 +64,23 @@ class DistanceCalculatorSpec extends AnyFunSuite with Matchers with Inspectors {
     val mdd = new ManhattanDistanceDouble
 
     mdd.computeDistance(kd, rd) should be(0.04d +- margind)
+  }
+  test("Minkowski distance float is calculated correctly") {
+    // Minkowski distance with p = 2 is the same as Euclidean distance
+    val mdf = new MinkowskiDistanceFloat(2)
+
+    val edf = new EuclideanDistanceFloat
+    val ed = edf.computeDistance(kf, rf)
+
+    mdf.computeDistance(kf, rf) should be(ed +- marginf)
+  }
+
+  test("Minkowski distance double is calculated correctly") {
+    val mdd = new MinkowskiDistanceDouble(2)
+
+    val edf = new EuclideanDistanceDouble
+    val ed = edf.computeDistance(kd, rd)
+
+    mdd.computeDistance(kd, rd) should be(ed +- margind)
   }
 }

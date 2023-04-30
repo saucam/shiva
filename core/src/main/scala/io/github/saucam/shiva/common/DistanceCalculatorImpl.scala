@@ -1,5 +1,7 @@
 package io.github.saucam.shiva.common
 
+import scala.math.pow
+
 import breeze.linalg._
 import breeze.numerics.abs
 
@@ -62,5 +64,25 @@ class ManhattanDistanceDouble extends DistanceCalculator[Double] {
   override def computeDistance(u: Vector[Double], v: Vector[Double]): Double = {
     val diff = u - v
     sum(abs(diff))
+  }
+}
+
+class MinkowskiDistanceFloat(p: Int) extends DistanceCalculator[Float] {
+  override def computeDistance(u: Vector[Float], v: Vector[Float]): Float = {
+    val diff = u - v
+    val absDiff = abs(diff)
+    val powDiff = absDiff.mapValues(d => pow(d.toDouble, p.toDouble))
+    val sumDiff = sum(powDiff)
+    pow(sumDiff, 1.0 / p).toFloat
+  }
+}
+
+class MinkowskiDistanceDouble(p: Int) extends DistanceCalculator[Double] {
+  override def computeDistance(u: Vector[Double], v: Vector[Double]): Double = {
+    val diff = u - v
+    val absDiff = abs(diff)
+    val powDiff = absDiff.mapValues(d => pow(d, p.toDouble))
+    val sumDiff = sum(powDiff)
+    pow(sumDiff, 1.0 / p)
   }
 }
