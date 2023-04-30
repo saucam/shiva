@@ -28,7 +28,7 @@ Basic guiding principle is to be:
 ## Installation
 To use Shiva, add the following to your ```build.sbt```
 
-For releases versions:
+For release versions:
 ```scala
 resolvers +=
   "Sonatype OSS Releases" at "https://s01.oss.sonatype.org/content/repositories/releases"
