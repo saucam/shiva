@@ -39,7 +39,7 @@ class DistanceCalculatorImplSpec extends AnyFunSuite with Matchers with Inspecto
   test("Euclidean distance double is calculated correctly") {
     val edf = new EuclideanDistanceDouble
 
-    edf.computeDistance(kd, rd) should be(0.02828427d +- marginf)
+    edf.computeDistance(kd, rd) should be(0.02828427d +- margind)
   }
 
   test("Cosine similarity distance float is calculated correctly") {
